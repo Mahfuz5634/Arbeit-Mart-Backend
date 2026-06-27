@@ -1,56 +1,60 @@
 import Product from "../../models/Product.js";
 
-const getProduct=async(req,res)=>{
-   try{
-    const products = await Product.find({isActive:true});
+const getProduct = async (req, res) => {
+  try {
+    const products = await Product.find({ isActive: true });
     res.json(products);
-
-   }catch(error){
-    res.status(500).json({message:'Error for fetching product'})
-   }
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching products' });
+  }
 }
 
-
-const getProductById=async(req,res)=>{
-    try {const product = await Product.findById(req.params.id);
-        if(product){
-            res.json(product);
-        }
-        else{
-             res.status(404).json({message:"Product not found"})
-        }
-    } catch (error) {
-       res.status(500).json({message:"server error"})
+const getProductById = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      res.json(product);
+    } else {
+      res.status(404).json({ message: "Product not found" });
     }
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
-const createProduct = async(req,res)=>{
-    try {
-        const{name,description,category,basePrice,attributes,variants}=req.body;
+const createProduct = async (req, res) => {
+  try {
+    const { name, description, category, basePrice, coverImage, attributes, variants } = req.body;
 
-        const product= new Product({
-            name,description,category,basePrice,attributes,variants
-        })
-        const createdProduct = await product.save();
-        res.status(201).json(createdProduct);
-    } catch (error) {
-        res.status(400).json({ message: 'an error to created product'});
-    }
+    const product = new Product({
+      name, 
+      description, 
+      category, 
+      basePrice, 
+      coverImage, 
+      attributes, 
+      variants
+    });
+    
+    const createdProduct = await product.save();
+    res.status(201).json(createdProduct);
+  } catch (error) {
+    res.status(400).json({ message: 'An error occurred while creating the product', error: error.message });
+  }
 }
-
 
 const updateProduct = async (req, res) => {
   try {
-    const { name, description, category, basePrice, attributes, variants, isActive } = req.body;
+    const { name, description, category, basePrice, coverImage, attributes, variants, isActive } = req.body;
 
     const product = await Product.findById(req.params.id);
 
     if (product) {
-    
       product.name = name || product.name;
       product.description = description || product.description;
       product.category = category || product.category;
       product.basePrice = basePrice || product.basePrice;
+      product.coverImage = coverImage || product.coverImage; 
       product.attributes = attributes || product.attributes;
       product.variants = variants || product.variants;
       
@@ -68,9 +72,9 @@ const updateProduct = async (req, res) => {
     res.status(500).json({ message: "Error updating product", error: error.message });
   }
 };
+
 const deleteProduct = async (req, res) => {
   try {
-  
     const product = await Product.findByIdAndDelete(req.params.id);
 
     if (product) {
@@ -83,12 +87,13 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ message: "Error deleting product", error: error.message });
   }
 };
-const productController={
-    getProduct,
-    getProductById,
-    createProduct,
-    updateProduct,
-    deleteProduct
-    
+
+const productController = {
+  getProduct,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct
 }
+
 export default productController;

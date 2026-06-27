@@ -2,6 +2,7 @@ import app from "./app.js";
 import config from "./config/index.js";
 import connectDb from "./db/index.js";
 
+
 const port=config.port;
 
 async function main(){

@@ -1,6 +1,9 @@
 import express from "express";
 import authRoutes from "./modules/routes/authRoute.js"
 import productRoutes from "./modules/routes/productRoutes.js"
+import couponRoutes from "./modules/routes/couponRoutes.js";
+import shippingRoutes from "./modules/routes/shippingRoutes.js";
+import orderRoutes from "./modules/routes/orderRoutes.js";
 import cors from 'cors';
 
 
@@ -14,4 +17,7 @@ app.get("/",(req,res)=>{
 
 app.use('/api/auth',authRoutes);
 app.use('/api/product',productRoutes);
+app.use('/api/coupon',couponRoutes);
+app.use('/api/shipping',shippingRoutes);
+app.use('/api/order',orderRoutes);
 export default app;

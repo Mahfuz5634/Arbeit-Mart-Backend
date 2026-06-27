@@ -1,4 +1,4 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
 const variantSchema = new mongoose.Schema({
   sku: { type: String, required: true, unique: true },
@@ -13,6 +13,7 @@ const productSchema = new mongoose.Schema({
   description: { type: String, required: true },
   category: { type: String, required: true },
   basePrice: { type: Number, required: true },
+  coverImage: { type: String }, 
   attributes: [{
     name: { type: String }, 
     values: [{ type: String }] 
